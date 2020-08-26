@@ -16,18 +16,26 @@ const SectionMenu = styled.section`
 const BannerMenu = styled.img`
     height: 210px;
     width: 100%;
+    background-size: cover;
+    background-position: center;
 `;
 
-export const Menu = () => (
+export const Menu = ({ setOpenItem }) => (
     <MenuStyled>
         <BannerMenu src={bannerImage} alt="banner"/>
         <SectionMenu>
             <h2>Бургеры</h2>
-            <ListItem itemList={dbMenu.burger}/>
+            <ListItem 
+                itemList={dbMenu.burger}
+                setOpenItem={setOpenItem}
+            />
         </SectionMenu>
         <SectionMenu>
             <h2>Закуски / напитки</h2>
-            <ListItem itemList={dbMenu.other}/>
+            <ListItem 
+                itemList={dbMenu.other}
+                setOpenItem={setOpenItem}
+            />
         </SectionMenu>
     </MenuStyled>
 );
