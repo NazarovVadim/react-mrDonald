@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 
 export const ModalButton = styled.button`
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    display: block;
+    margin: 0 auto;
     font-size: 20px;
     padding: 20px 70px;
     border: none;

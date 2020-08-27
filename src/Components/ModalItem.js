@@ -28,7 +28,6 @@ const Banner = styled.div`
     background-image: url(${({img}) => img});
     background-size: cover;
     background-position: center;
-    margin-bottom: 20px;
 `;
 
 const H1 = styled.h1`
@@ -37,6 +36,14 @@ const H1 = styled.h1`
     align-items: center;
     width: 100%;
 
+`;
+
+const Content = styled.section`
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100% - 200px);
 `;
 
 export const ModalItem = ({ openItem, setOpenItem }) => {
@@ -50,13 +57,16 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
     if(!openItem) return null;
     return (
         <Overlay id="overlay" onClick={closeModal}>
+            
             <Modal>
                 <Banner img={openItem.img} />
-                <H1> <span>{openItem.name}</span><span>{openItem.price.toLocaleString('ru-RU', {
-                    style: 'currency',
-                    currency: 'RUB'
-                })}</span></H1>    
-                <ModalButton>Добавить</ModalButton>
+                <Content>
+                    <H1> <span>{openItem.name}</span><span>{openItem.price.toLocaleString('ru-RU', {
+                        style: 'currency',
+                        currency: 'RUB'
+                    })}</span></H1>    
+                    <ModalButton>Добавить</ModalButton>
+                </Content>
             </Modal>
         </Overlay>
     );
