@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ModalButton } from './ModalButton'
+import { ModalButton } from '../Slyle/ModalButton'
 import { OrderListItem } from './OrderListItem'
 
 const OrderStyled = styled.section`
@@ -41,17 +41,21 @@ const TotalPrice = styled.span`
     margin-left: 20px;
 `;
 
-export const Order = () => {
+const EmptyList = styled.p`
+    text-align: center;
+`;
+
+export const Order = ({ orders, setOrders }) => {
 
     return (
         <OrderStyled>
             <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
             <OrderContent>
+                {orders.length ?
                 <OrderList>
-                    <OrderListItem></OrderListItem>
-                    <OrderListItem></OrderListItem>
-                    <OrderListItem></OrderListItem>
-                </OrderList>
+                    {orders.map(order => <OrderListItem order={order} />)}
+                </OrderList> :
+                <EmptyList>Список заказов Пуст</EmptyList>}
             </OrderContent>
             <OrderTotal>
                 <span>Итого</span>

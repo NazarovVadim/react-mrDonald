@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ModalButton } from './ModalButton'
+import { ModalButton } from '../Slyle/ModalButton'
 
 const Overlay = styled.div`
     position: fixed;
@@ -46,18 +46,25 @@ const Content = styled.section`
     height: calc(100% - 200px);
 `;
 
-export const ModalItem = ({ openItem, setOpenItem }) => {
+export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
-    function closeModal(e){
-        if(e.target.id === "overlay"){
+    const closeModal = e => {
+        if(e.target.id === "overlay")
             setOpenItem(null)
-        }
     }
 
-    if(!openItem) return null;
+    const order = {
+        ...openItem
+
+    };
+
+    const addToOrder = e => {
+        setOrders([...orders, order]);
+        setOpenItem(null);
+    }
+
     return (
         <Overlay id="overlay" onClick={closeModal}>
-            
             <Modal>
                 <Banner img={openItem.img} />
                 <Content>
@@ -65,8 +72,8 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
                         style: 'currency',
                         currency: 'RUB'
                     })}</span></H1>    
-                    <ModalButton>Добавить</ModalButton>
-                </Content>
+                    <ModalButton onClick={addToOrder}>Добавить</ModalButton>
+                </Content>                                                                                                                                                      
             </Modal>
         </Overlay>
     );
