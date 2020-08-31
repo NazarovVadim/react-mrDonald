@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ModalButton } from '../Slyle/ModalButton'
+import { ModalButton } from '../Slyle/ModalButton';
+import { CountItem } from './CountItem';
+import { useCount } from '../Hooks/useCount';
+import { totalPriceItems } from '../functions/secondaryFunctions';
+import { formatCurrency } from '../functions/secondaryFunctions';
 
 const Overlay = styled.div`
     position: fixed;
@@ -46,17 +50,20 @@ const Content = styled.section`
     height: calc(100% - 200px);
 `;
 
+const TotalPriceItem = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
+
+    const counter = useCount();
+    const order = {...openItem, count: counter.count };
 
     const closeModal = e => {
         if(e.target.id === "overlay")
             setOpenItem(null)
     }
-
-    const order = {
-        ...openItem
-
-    };
 
     const addToOrder = e => {
         setOrders([...orders, order]);
@@ -68,10 +75,12 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
             <Modal>
                 <Banner img={openItem.img} />
                 <Content>
-                    <H1> <span>{openItem.name}</span><span>{openItem.price.toLocaleString('ru-RU', {
-                        style: 'currency',
-                        currency: 'RUB'
-                    })}</span></H1>    
+                    <H1> <span>{openItem.name}</span><span>{openItem.price.toLocaleString('ru-RU', {style: 'currency',currency: 'RUB' })}</span></H1>    
+                    <CountItem {...counter}/>
+                    <TotalPriceItem>
+                        <span>Цена:</span>
+                        <span>{formatCurrency(totalPriceItems(order))}</span>
+                    </TotalPriceItem>
                     <ModalButton onClick={addToOrder}>Добавить</ModalButton>
                 </Content>                                                                                                                                                      
             </Modal>

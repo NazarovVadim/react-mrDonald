@@ -24,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     button, input{
-        font-family: inherit;
+        font: inherit;
     }
 
     img{
@@ -51,6 +51,13 @@ export const GlobalStyle = createGlobalStyle`
     p{
         padding: 0;
         margin: 0;
+    }
+    input[type='number']{
+        -moz-appearance: textfield;
+    }
+    input::-webkit-inner-spin-button,
+    input::-webkit-outer-spin-button{
+        -webkit-appearance: none;
     }
 `;
 
