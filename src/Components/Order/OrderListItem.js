@@ -32,11 +32,26 @@ const TrashButton = styled.button`
     cursor: pointer;
 `;
 
-export const OrderListItem = ({ order }) => (
+const ItemNameWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+
+`;
+
+const ToppingName = styled.span`
+    font-size: 14px;
+    color: #9A9A9A;
+`;
+
+export const OrderListItem = ({ order }) => {
+
+    return (
     <OrderItemStyled>
-        <ItemName>{order.name}</ItemName>
+        <ItemNameWrapper>
+            <ItemName>{order.name}</ItemName>
+        </ItemNameWrapper>
         <span>{order.count}</span>
         <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
         <TrashButton />
     </OrderItemStyled>
-)
+)}

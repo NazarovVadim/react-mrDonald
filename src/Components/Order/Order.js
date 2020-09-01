@@ -47,11 +47,11 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-export const Order = ({ orders, setOrders }) => {
+export const Order = ({orders }) => {
 
-    const total = orders.reduce((result, order) => 
-        totalPriceItems(order) + result
-    , 0);
+    const total = orders.reduce((result, order) => totalPriceItems(order) + result, 0);
+
+    const totalCounter = orders.reduce((result, order) => order.count + result, 0);
 
     return (
         <OrderStyled>
@@ -59,13 +59,13 @@ export const Order = ({ orders, setOrders }) => {
             <OrderContent>
                 {orders.length ?
                 <OrderList>
-                    {orders.map(order => <OrderListItem order={order} />)}
+                    {orders.map(order => <OrderListItem order={order}/>)}
                 </OrderList> :
                 <EmptyList>Список заказов Пуст</EmptyList>}
             </OrderContent>
             <OrderTotal>
                 <span>Итого</span>
-                <span>5</span>
+                <span>{totalCounter}</span>
                 <TotalPrice>{formatCurrency(total)}</TotalPrice>
             </OrderTotal>
             <ModalButton>Оформить</ModalButton>
