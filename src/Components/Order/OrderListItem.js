@@ -7,6 +7,7 @@ import { formatCurrency } from '../functions/secondaryFunctions';
 const OrderItemStyled = styled.li`
     display: flex;
     margin: 15px 0;
+    cursor: pointer;
 `;
 
 const ItemName = styled.span`
@@ -35,23 +36,35 @@ const TrashButton = styled.button`
 const ItemNameWrapper = styled.div`
     display: flex;
     flex-direction: column;
-
+    margin-right: 10px;
 `;
 
 const ToppingName = styled.span`
     font-size: 14px;
     color: #9A9A9A;
 `;
+    
+const OrderItemWrap = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
 
-export const OrderListItem = ({ order }) => {
+export const OrderListItem = ({ order, index, deleteItem, setOpenItem }) => {
+
+    const toppings = order.topping.filter(item => item.checked).map(item => item.name).join(', ');
 
     return (
-    <OrderItemStyled>
-        <ItemNameWrapper>
-            <ItemName>{order.name}</ItemName>
-        </ItemNameWrapper>
-        <span>{order.count}</span>
-        <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
-        <TrashButton />
-    </OrderItemStyled>
+    <OrderItemWrap>
+        <OrderItemStyled onClick={() => setOpenItem({...order, index})}>
+            <ItemNameWrapper>
+                <ItemName>{order.name} {order.choice}</ItemName>
+                {toppings && <ToppingName>{toppings}</ToppingName>}
+            </ItemNameWrapper>
+            <span>{order.count}</span>
+            <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
+            
+        </OrderItemStyled>
+        <TrashButton onClick={() => deleteItem(index)}/>
+    </OrderItemWrap>
 )}

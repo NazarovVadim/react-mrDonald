@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const ToppingWrap = styled.div`
     column-count: 2;
     max-width: 500px;
-    
 `;
 
 const ToppingLabel = styled.label`

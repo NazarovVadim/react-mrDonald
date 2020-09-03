@@ -13,4 +13,7 @@ export const ModalButton = styled.button`
     &:hover{
         background-color: #64c143;
     }
+    &:disabled{
+        background-color: #ccc;
+    }
 `;

@@ -6,7 +6,10 @@ import { useCount } from '../Hooks/useCount';
 import { totalPriceItems } from '../functions/secondaryFunctions';
 import { formatCurrency } from '../functions/secondaryFunctions';
 import { Toppings } from './Toppings';
+import { Choices } from './Choices';
 import { useToppings } from '../Hooks/useToppings';
+import { useChoices } from '../Hooks/useChoices';
+
 
 const Overlay = styled.div`
     position: fixed;
@@ -59,9 +62,11 @@ const TotalPriceItem = styled.div`
 
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
-    const counter = useCount();
+    const counter = useCount(openItem);
     const toppings = useToppings(openItem);
-    const order = {...openItem, count: counter.count, topping: toppings.toppings };
+    const choices = useChoices(openItem);
+    const isEdit = openItem.index > -1;
+    const order = {...openItem, count: counter.count, topping: toppings.toppings, choice: choices.choice };
 
     const closeModal = e => {
         if(e.target.id === "overlay")
@@ -73,6 +78,13 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
         setOpenItem(null);
     }
 
+    const editOrder = e => {
+        const newOrders = [...orders];
+        newOrders[openItem.index] = order;
+        setOrders(newOrders);
+        setOpenItem(null);
+    }
+
     return (
         <Overlay id="overlay" onClick={closeModal}>
             <Modal>
@@ -81,11 +93,12 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
                     <H1> <span>{openItem.name}</span><span>{formatCurrency(openItem.price)}</span></H1>    
                     <CountItem {...counter}/>
                     {openItem.toppings && <Toppings {...toppings}/>}
+                    {openItem.choices && <Choices {...choices} openItem={openItem}/>}
                     <TotalPriceItem>
                         <span>Цена:</span>
                         <span>{formatCurrency(totalPriceItems(order))}</span>
                     </TotalPriceItem>
-                    <ModalButton onClick={addToOrder}>Добавить</ModalButton>
+                    <ModalButton onClick={isEdit ? editOrder : addToOrder} disabled={order.choices && !order.choice}>{isEdit ? 'Редактировать' : 'Добавить'}</ModalButton>
                 </Content>                                                                                                                                                      
             </Modal>
         </Overlay>
