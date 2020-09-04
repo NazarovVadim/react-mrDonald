@@ -59,5 +59,8 @@ export const GlobalStyle = createGlobalStyle`
     input::-webkit-outer-spin-button{
         -webkit-appearance: none;
     }
+    figure{
+        margin: 0 30px;
+    }
 `;
 

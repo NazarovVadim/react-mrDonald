@@ -84,7 +84,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
         setOrders(newOrders);
         setOpenItem(null);
     }
-
+    
     return (
         <Overlay id="overlay" onClick={closeModal}>
             <Modal>

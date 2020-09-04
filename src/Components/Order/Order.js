@@ -48,7 +48,7 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-export const Order = ({orders, setOrders, setOpenItem }) => {
+export const Order = ({orders, setOrders, setOpenItem, authentication, login }) => {
 
     const deleteItem = index => {
         const newOrder = [...orders];
@@ -59,6 +59,31 @@ export const Order = ({orders, setOrders, setOpenItem }) => {
     const total = orders.reduce((result, order) => totalPriceItems(order) + result, 0);
 
     const totalCounter = orders.reduce((result, order) => order.count + result, 0);
+
+    const checkout = () => {
+        if(authentication){
+            orders.map((order) => {console.log({
+                name: order.name, 
+                price: order.price, 
+                id: order.id, 
+                toppings: order.topping.filter(item => item.checked).map(item => item.name).join(', '),
+                count: order.count,
+                choice: order.choice
+            })})
+            
+        }else{
+            const order = orders.map((order) => ({
+                name: order.name, 
+                price: order.price, 
+                id: order.id, 
+                toppings: order.topping.filter(item => item.checked).map(item => item.name).join(', '),
+                count: order.count,
+                choice: order.choice
+            }));
+            login();
+            console.log(order)
+        }
+    }
 
     return (
         <OrderStyled>
@@ -75,7 +100,7 @@ export const Order = ({orders, setOrders, setOpenItem }) => {
                 <span>{totalCounter}</span>
                 <TotalPrice>{formatCurrency(total)}</TotalPrice>
             </OrderTotal>
-            <ModalButton>Оформить</ModalButton>
+            <ModalButton onClick={checkout}>Оформить</ModalButton>
         </OrderStyled>
     )
 }
