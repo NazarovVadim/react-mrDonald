@@ -62,6 +62,8 @@ const TotalPriceItem = styled.div`
 
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
+    document.querySelector('title').textContent = openItem.name;
+
     const counter = useCount(openItem);
     const toppings = useToppings(openItem);
     const choices = useChoices(openItem);
@@ -69,13 +71,16 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
     const order = {...openItem, count: counter.count, topping: toppings.toppings, choice: choices.choice };
 
     const closeModal = e => {
-        if(e.target.id === "overlay")
-            setOpenItem(null)
+        if(e.target.id === "overlay"){
+            setOpenItem(null);
+            document.querySelector('title').textContent = `MrDonald's`;
+        }
     }
 
     const addToOrder = e => {
         setOrders([...orders, order]);
         setOpenItem(null);
+        document.querySelector('title').textContent = `MrDonald's`;
     }
 
     const editOrder = e => {
@@ -83,6 +88,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
         newOrders[openItem.index] = order;
         setOrders(newOrders);
         setOpenItem(null);
+        document.querySelector('title').textContent = `MrDonald's`;
     }
     
     return (

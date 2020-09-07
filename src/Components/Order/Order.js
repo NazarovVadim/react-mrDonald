@@ -83,6 +83,7 @@ export const Order = ({orders, setOrders, setOpenItem, authentication, login, fi
     const checkout = () => {
         if(authentication){
             sendOrder();
+            setOrders([]);
         }else{
             login();
         }
