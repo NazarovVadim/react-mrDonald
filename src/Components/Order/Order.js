@@ -4,6 +4,7 @@ import { ModalButton } from '../Slyle/ModalButton';
 import { OrderListItem } from './OrderListItem';
 import { totalPriceItems } from '../functions/secondaryFunctions';
 import { formatCurrency } from '../functions/secondaryFunctions';
+import { projection } from '../functions/secondaryFunctions';
 
 const OrderStyled = styled.section`
     position: fixed;
@@ -48,7 +49,26 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-export const Order = ({orders, setOrders, setOpenItem, authentication, login }) => {
+const dataRules= {
+    name: ['name'],
+    price: ['price'],
+    count: ['count'],
+    topping: ['topping', arr => arr.filter(obj => obj.checked).map(obj => obj.name), arr => arr.length ? arr : 'no toppings'],
+    choice: ['choice', item => item ? item : 'no choices']
+}
+
+export const Order = ({orders, setOrders, setOpenItem, authentication, login, firebaseDatabase }) => {
+    const dataBase = firebaseDatabase();
+
+    const sendOrder = () => {
+        const newOrder = orders.map(projection(dataRules));
+        dataBase.ref('orders').push().set({
+            nameClient: authentication.displayName,
+            email: authentication.email,
+            order: newOrder
+        });
+    }
+
 
     const deleteItem = index => {
         const newOrder = [...orders];
@@ -62,26 +82,9 @@ export const Order = ({orders, setOrders, setOpenItem, authentication, login }) 
 
     const checkout = () => {
         if(authentication){
-            orders.map((order) => {console.log({
-                name: order.name, 
-                price: order.price, 
-                id: order.id, 
-                toppings: order.topping.filter(item => item.checked).map(item => item.name).join(', '),
-                count: order.count,
-                choice: order.choice
-            })})
-            
+            sendOrder();
         }else{
-            const order = orders.map((order) => ({
-                name: order.name, 
-                price: order.price, 
-                id: order.id, 
-                toppings: order.topping.filter(item => item.checked).map(item => item.name).join(', '),
-                count: order.count,
-                choice: order.choice
-            }));
             login();
-            console.log(order)
         }
     }
 

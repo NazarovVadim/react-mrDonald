@@ -7,3 +7,13 @@ export const totalPriceItems = order => {
 }
 
 export const formatCurrency = price => price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'});
+
+export const projection = rules => {
+    const keys = Object.keys(rules);
+
+    return obj => keys.reduce((newObj, key) => {
+        newObj[key] = rules[key].reduce((value, fn, i) => (i ? fn(value) : obj[fn]), null);
+        return newObj;
+    }, {})
+}
+
