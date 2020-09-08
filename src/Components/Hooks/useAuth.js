@@ -14,7 +14,7 @@ export function useAuth(authFirebase){
 
     useEffect(()=> {
         auth.onAuthStateChanged(user => {if(user){setAuthentication(user)} else setAuthentication(null)})
-    }, [authentication]);
+    }, [auth, authentication]);
 
     return { authentication, login, logOut }
 }
