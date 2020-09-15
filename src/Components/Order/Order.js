@@ -4,7 +4,7 @@ import { ModalButton } from '../Slyle/ModalButton';
 import { OrderListItem } from './OrderListItem';
 import { totalPriceItems } from '../functions/secondaryFunctions';
 import { formatCurrency } from '../functions/secondaryFunctions';
-import { projection } from '../functions/secondaryFunctions';
+
 
 const OrderStyled = styled.section`
     position: fixed;
@@ -20,7 +20,7 @@ const OrderStyled = styled.section`
     padding: 20px;
 `;
 
-const OrderTitle = styled.h2`
+export const OrderTitle = styled.h2`
     text-align: center;
     margin-bottom: 30px;
 `;
@@ -31,7 +31,7 @@ const OrderContent = styled.div`
 
 const OrderList = styled.ul``;
 
-const OrderTotal = styled.div`
+export const OrderTotal = styled.div`
     display: flex;
     margin: 0 35px 30px;
     & span:first-child{
@@ -39,7 +39,7 @@ const OrderTotal = styled.div`
     }
 `;
 
-const TotalPrice = styled.span`
+export const TotalPrice = styled.span`
     text-align: right;
     min-width: 65px;
     margin-left: 20px;
@@ -49,26 +49,9 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-const dataRules= {
-    name: ['name'],
-    price: ['price'],
-    count: ['count'],
-    topping: ['topping', arr => arr.filter(obj => obj.checked).map(obj => obj.name), arr => arr.length ? arr : 'no toppings'],
-    choice: ['choice', item => item ? item : 'no choices']
-}
 
-export const Order = ({orders, setOrders, setOpenItem, authentication, login, firebaseDatabase }) => {
-    const dataBase = firebaseDatabase();
 
-    const sendOrder = () => {
-        const newOrder = orders.map(projection(dataRules));
-        dataBase.ref('orders').push().set({
-            nameClient: authentication.displayName,
-            email: authentication.email,
-            order: newOrder
-        });
-    }
-
+export const Order = ({orders, setOrders, setOpenItem, authentication, login, setOpenOrderConfirm }) => {
 
     const deleteItem = index => {
         const newOrder = [...orders];
@@ -82,7 +65,7 @@ export const Order = ({orders, setOrders, setOpenItem, authentication, login, fi
 
     const checkout = () => {
         if(authentication){
-            sendOrder();
+            setOpenOrderConfirm(true);
             setOrders([]);
         }else{
             login();
